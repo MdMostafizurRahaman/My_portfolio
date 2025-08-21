@@ -5,16 +5,28 @@ import FlipCard from "@/components/ui/flip-card.jsx";
 export default function ProjectsSection() {
   const projects = [
     {
-      title: "Policy Tracker",
-      description: "Visual platform to compare up to 10 AI policies per country",
+      title: "Global Policy Tracker",
+      description: "Visual platform to compare up to 10 policies per country",
       icon: "fas fa-globe",
       technologies: ["Next.js", "FastAPI", "MongoDB", "React-Globe"],
       detailedDescription: [
-        "Built a visual platform to compare up to 10 AI policies per country. Features color-coded world maps and an intuitive dashboard.",
-        "Future-ready upgrades include real-time updates and automated policy change detection."
+        "Designed and developed a visual platform to compare and analyze up to 10 policies per country, featuring an interactive dashboard and color-coded world maps for clear global insights.",
+        "Enhanced with AI-powered analysis, the platform supports real-time updates and plans for automated policy change detection, ensuring timely and actionable information for decision-makers."
       ],
       github: "https://github.com/MdMostafizurRahaman/policy-tracker.git",
-      demo: "#"
+      demo: "https://policy-tracker-f.onrender.com/"
+    },
+        {
+      title: "MediLens",
+      description: "AI-powered healthcare platform for simplified medical data analysis",
+      icon: "fas fa-notes-medical",
+      technologies: ["Spring Boot", "Next.js", "React", "PostCSS", "Render"],
+      detailedDescription: [
+        "Developed an AI-driven healthcare platform to simplify clinical workflows, including OCR-based prescription analysis, structured medical reports, and efficient doctor & patient management.",
+        "Features real-time chat for seamless communication and smart insights to enhance medical decision-making, making prescriptions and health data clear and actionable."
+      ],
+      github: "https://github.com/MdMostafizurRahaman/MediLens.git",
+      demo: "https://medilens-frontend.onrender.com/"
     },
     {
       title: "AQI",
