@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "../components/Navbar.jsx";
 import HeroSection from "../components/HeroSection.jsx";
 import AboutSection from "../components/AboutSection.jsx";
@@ -9,9 +9,7 @@ import ExperienceSection from "../components/ExperienceSection.jsx";
 import GitHubSection from "../components/GitHubSection.jsx";
 import ContactSection from "../components/ContactSection.jsx";
 import Footer from "../components/Footer.jsx";
-import DynamicBackground from "../components/ui/dynamic-background.jsx";
 import { useScrollSpy } from "../hooks/use-scroll-spy.jsx";
-import { useScrollAnimations } from "../hooks/use-scroll-animations.jsx";
 import { usePortfolioData } from "../hooks/use-portfolio-data.js";
 import { Alert, AlertDescription, AlertTitle } from "../components/ui/alert.jsx";
 import { AlertCircle, Loader2 } from "lucide-react";
@@ -21,48 +19,15 @@ export default function Home() {
   const { projects, experiences, skills, isLoading, isError, errorMessage } = usePortfolioData();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(false);
-  const [theme, setTheme] = useState("light");
-  const [cursorVariant, setCursorVariant] = useState("default");
 
-  // Framer Motion scroll hooks
-  const { scrollYProgress } = useScroll();
-  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
-  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "200%"]);
-  
-  // Initialize scroll animations
-  useScrollAnimations();
-
-  // Advanced cursor tracking
+  // Cursor tracking for dynamic effects
   useEffect(() => {
     const handleMouseMove = (e) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
-      
-      // Detect hover targets
-      const target = e.target;
-      if (target.tagName === 'BUTTON' || target.tagName === 'A' || target.classList.contains('interactive')) {
-        setCursorVariant("hover");
-      } else if (target.classList.contains('text-element')) {
-        setCursorVariant("text");
-      } else {
-        setCursorVariant("default");
-      }
     };
 
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
-
-  // Theme detection
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("theme") || "light";
-    setTheme(savedTheme);
-    
-    const observer = new MutationObserver(() => {
-      setTheme(document.documentElement.classList.contains("dark") ? "dark" : "light");
-    });
-    
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-    return () => observer.disconnect();
   }, []);
 
   // Page visibility animation
@@ -73,83 +38,73 @@ export default function Home() {
   // Enhanced loading state with spectacular animations
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
-        <DynamicBackground theme={theme} intensity="low" />
-        
-        {/* Animated loading rings */}
-        <div className="relative z-10">
-          {[...Array(3)].map((_, i) => (
+      <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-purple-900/20 via-blue-900/20 to-teal-900/20">
+        {/* Animated background particles */}
+        <div className="absolute inset-0 overflow-hidden">
+          {[...Array(20)].map((_, i) => (
             <motion.div
               key={i}
-              className="absolute inset-0 rounded-full border-4 border-transparent"
+              className="absolute w-2 h-2 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full"
               style={{
-                borderTopColor: `rgba(147, 51, 234, ${0.8 - i * 0.2})`,
-                width: `${80 + i * 40}px`,
-                height: `${80 + i * 40}px`,
-                margin: `${-40 - i * 20}px 0 0 ${-40 - i * 20}px`,
-                top: '50%',
-                left: '50%',
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
               }}
-              animate={{ rotate: 360 }}
+              animate={{
+                y: [-20, -100, -20],
+                x: [-10, 10, -10],
+                opacity: [0.3, 0.8, 0.3],
+                scale: [0.5, 1, 0.5],
+              }}
               transition={{
-                duration: 2 - i * 0.3,
+                duration: 3 + Math.random() * 2,
                 repeat: Infinity,
-                ease: "linear",
+                delay: i * 0.1,
+                ease: "easeInOut",
               }}
             />
           ))}
-          
+        </div>
+
+        <div className="text-center z-10">
           <motion.div
-            className="relative z-20 flex flex-col items-center"
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, type: "spring" }}
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="relative"
+          >
+            {/* Rotating gradient ring */}
+            <motion.div
+              className="w-20 h-20 rounded-full border-4 border-transparent bg-gradient-to-r from-purple-500 via-blue-500 to-teal-500 p-1 mx-auto mb-6"
+              animate={{ rotate: 360 }}
+              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+            >
+              <div className="w-full h-full rounded-full bg-white dark:bg-gray-900 flex items-center justify-center">
+                <Loader2 className="h-8 w-8 animate-spin text-purple-500" />
+              </div>
+            </motion.div>
+          </motion.div>
+          
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="text-lg font-medium bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent"
+          >
+            Loading portfolio data...
+          </motion.p>
+          
+          {/* Loading progress animation */}
+          <motion.div 
+            className="w-64 h-1 bg-gray-200 dark:bg-gray-700 rounded-full mx-auto mt-4 overflow-hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
           >
             <motion.div
-              className="w-20 h-20 rounded-full bg-gradient-to-r from-purple-500 via-blue-500 to-teal-500 flex items-center justify-center mb-8"
-              animate={{
-                scale: [1, 1.2, 1],
-                rotate: [0, 180, 360],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            >
-              <Loader2 className="h-8 w-8 text-white animate-spin" />
-            </motion.div>
-            
-            <motion.h2
-              className="text-2xl font-bold text-shimmer mb-4"
-              animate={{ opacity: [0.5, 1, 0.5] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              Loading Portfolio
-            </motion.h2>
-            
-            <motion.div 
-              className="flex space-x-2"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-            >
-              {[...Array(3)].map((_, i) => (
-                <motion.div
-                  key={i}
-                  className="w-3 h-3 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full"
-                  animate={{
-                    y: [0, -20, 0],
-                    scale: [1, 1.2, 1],
-                  }}
-                  transition={{
-                    duration: 1.5,
-                    repeat: Infinity,
-                    delay: i * 0.2,
-                  }}
-                />
-              ))}
-            </motion.div>
+              className="h-full bg-gradient-to-r from-purple-500 to-blue-500"
+              animate={{ x: ["-100%", "100%"] }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+            />
           </motion.div>
         </div>
       </div>
@@ -165,23 +120,43 @@ export default function Home() {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
-        <DynamicBackground theme={theme} intensity="low" />
-        
-        <motion.div
-          className="relative z-10"
-          initial={{ scale: 0.8, opacity: 0, rotateX: -15 }}
-          animate={{ scale: 1, opacity: 1, rotateX: 0 }}
-          transition={{ duration: 0.6, type: "spring" }}
-        >
-          <Alert variant="destructive" className="max-w-lg glass-effect backdrop-blur-xl">
+        {/* Error background animation */}
+        <div className="absolute inset-0 bg-gradient-to-br from-red-900/10 via-orange-900/10 to-yellow-900/10">
+          {[...Array(10)].map((_, i) => (
             <motion.div
-              animate={{ rotate: [0, 360] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+              key={i}
+              className="absolute w-1 h-1 bg-red-400 rounded-full opacity-30"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+              }}
+              animate={{
+                scale: [0, 1, 0],
+                opacity: [0, 0.6, 0],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                delay: i * 0.2,
+              }}
+            />
+          ))}
+        </div>
+
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.5, type: "spring" }}
+        >
+          <Alert variant="destructive" className="max-w-lg backdrop-blur-sm bg-white/80 dark:bg-gray-800/80">
+            <motion.div
+              animate={{ rotate: [0, 10, -10, 0] }}
+              transition={{ duration: 0.5, repeat: Infinity, repeatDelay: 2 }}
             >
-              <AlertCircle className="h-6 w-6" />
+              <AlertCircle className="h-5 w-5" />
             </motion.div>
-            <AlertTitle className="text-lg">Error loading portfolio data</AlertTitle>
-            <AlertDescription className="text-base">
+            <AlertTitle>Error loading portfolio data</AlertTitle>
+            <AlertDescription>
               {errorMessage || "There was an error loading the portfolio data. Please try again later."}
             </AlertDescription>
           </Alert>
@@ -190,108 +165,68 @@ export default function Home() {
     );
   }
 
-  const cursorVariants = {
-    default: {
-      x: mousePosition.x - 16,
-      y: mousePosition.y - 16,
-      scale: 1,
-      backgroundColor: "rgba(147, 51, 234, 0.5)",
-    },
-    hover: {
-      x: mousePosition.x - 24,
-      y: mousePosition.y - 24,
-      scale: 1.5,
-      backgroundColor: "rgba(59, 130, 246, 0.7)",
-    },
-    text: {
-      x: mousePosition.x - 12,
-      y: mousePosition.y - 12,
-      scale: 0.8,
-      backgroundColor: "rgba(16, 185, 129, 0.6)",
-    },
-  };
-
   return (
     <motion.div 
       className="min-h-screen flex flex-col relative overflow-hidden"
       initial={{ opacity: 0 }}
       animate={{ opacity: isVisible ? 1 : 0 }}
-      transition={{ duration: 1 }}
+      transition={{ duration: 0.8 }}
     >
-      {/* Dynamic Background */}
-      <DynamicBackground theme={theme} intensity="medium" />
-
-      {/* Advanced cursor effect */}
+      {/* Dynamic cursor glow effect */}
       <motion.div
-        className="fixed w-8 h-8 rounded-full pointer-events-none z-50 mix-blend-difference"
-        variants={cursorVariants}
-        animate={cursorVariant}
+        className="fixed w-6 h-6 rounded-full pointer-events-none z-50 mix-blend-difference"
+        style={{
+          background: "radial-gradient(circle, rgba(147, 51, 234, 0.8) 0%, transparent 70%)",
+          filter: "blur(2px)",
+        }}
+        animate={{
+          x: mousePosition.x - 12,
+          y: mousePosition.y - 12,
+        }}
         transition={{ type: "spring", stiffness: 500, damping: 30 }}
       />
 
-      {/* Scroll progress indicator */}
-      <motion.div
-        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 via-blue-500 to-teal-500 z-50 origin-left"
-        style={{ scaleX: scrollYProgress }}
-      />
+      {/* Background gradient overlay */}
+      <div className="fixed inset-0 bg-gradient-to-br from-purple-900/5 via-blue-900/5 to-teal-900/5 dark:from-purple-900/20 dark:via-blue-900/20 dark:to-teal-900/20 pointer-events-none" />
 
-      {/* Section transition effects */}
-      <motion.div
-        className="fixed inset-0 pointer-events-none z-10"
-        style={{ y: backgroundY }}
-      >
-        <div className="w-full h-full bg-gradient-to-b from-transparent via-purple-500/5 to-transparent" />
-      </motion.div>
-
-      {/* Main content with staggered animations */}
+      {/* Section transition animations */}
       <AnimatePresence mode="wait">
         <motion.div
           key="main-content"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
         >
           <Navbar activeSection={activeSection} />
           
-          {/* Enhanced section animations */}
           <motion.div
-            className="scroll-reveal animate-on-scroll"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.2 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
           >
             <HeroSection />
           </motion.div>
           
+          {/* Staggered section animations */}
           {[
-            { component: <AboutSection />, className: "scroll-reveal-left" },
-            { component: <SkillsSection skills={skills} />, className: "scroll-reveal-right" },
-            { component: <ProjectsSection projects={projects} />, className: "scroll-reveal" },
-            { component: <ExperienceSection experiences={experiences} />, className: "scroll-reveal-left" },
-            { component: <GitHubSection />, className: "scroll-reveal-right" },
-            { component: <ContactSection />, className: "scroll-reveal" },
-            { component: <Footer />, className: "scroll-reveal" }
+            { component: <AboutSection />, delay: 0.1 },
+            { component: <SkillsSection skills={skills} />, delay: 0.2 },
+            { component: <ProjectsSection projects={projects} />, delay: 0.3 },
+            { component: <ExperienceSection experiences={experiences} />, delay: 0.4 },
+            { component: <GitHubSection />, delay: 0.5 },
+            { component: <ContactSection />, delay: 0.6 },
+            { component: <Footer />, delay: 0.7 }
           ].map((section, index) => (
             <motion.div
               key={index}
-              className={`${section.className} animate-on-scroll hover-lift-rotate`}
-              data-delay={index}
-              initial={{ opacity: 0, y: 60, rotateX: -10 }}
-              whileInView={{ 
-                opacity: 1, 
-                y: 0, 
-                rotateX: 0,
-                transition: {
-                  duration: 0.8,
-                  delay: index * 0.1,
-                  ease: [0.25, 0.46, 0.45, 0.94]
-                }
-              }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.1 }}
-              whileHover={{
-                y: -5,
-                transition: { duration: 0.3 }
+              transition={{ 
+                duration: 0.8, 
+                delay: section.delay,
+                ease: [0.25, 0.46, 0.45, 0.94]
               }}
             >
               {section.component}
@@ -300,76 +235,46 @@ export default function Home() {
         </motion.div>
       </AnimatePresence>
 
-      {/* Enhanced floating action button */}
+      {/* Floating action button for scroll to top */}
       <motion.button
-        className="fixed bottom-8 right-8 w-16 h-16 bg-gradient-to-r from-purple-600 via-blue-600 to-teal-600 text-white rounded-full shadow-2xl z-40 flex items-center justify-center group overflow-hidden"
-        initial={{ opacity: 0, scale: 0, rotate: -180 }}
-        animate={{ opacity: 1, scale: 1, rotate: 0 }}
-        whileHover={{ 
-          scale: 1.1, 
-          boxShadow: "0 20px 40px rgba(147, 51, 234, 0.4)",
-          rotate: 360,
-        }}
+        className="fixed bottom-8 right-8 w-12 h-12 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full shadow-lg z-40 flex items-center justify-center"
+        initial={{ opacity: 0, scale: 0 }}
+        animate={{ opacity: 1, scale: 1 }}
+        whileHover={{ scale: 1.1, boxShadow: "0 10px 25px rgba(147, 51, 234, 0.4)" }}
         whileTap={{ scale: 0.9 }}
-        transition={{ duration: 0.6, type: "spring" }}
+        transition={{ duration: 0.3 }}
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
       >
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-teal-600 opacity-0 group-hover:opacity-100"
-          transition={{ duration: 0.3 }}
-        />
-        
         <motion.i 
-          className="fas fa-arrow-up relative z-10 text-lg"
+          className="fas fa-arrow-up"
           animate={{ y: [-2, 2, -2] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        />
-        
-        <motion.div
-          className="absolute inset-0 border-2 border-white/30 rounded-full"
-          animate={{ scale: [1, 1.2, 1], opacity: [0.7, 0, 0.7] }}
           transition={{ duration: 2, repeat: Infinity }}
         />
       </motion.button>
 
-      {/* Floating particles for the entire page */}
-      <div className="fixed inset-0 pointer-events-none z-5">
-        {[...Array(15)].map((_, i) => (
+      {/* Dynamic background particles */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        {[...Array(8)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-1 h-1 bg-gradient-to-r from-purple-400 to-blue-400 rounded-full opacity-40"
+            className="absolute w-1 h-1 bg-gradient-to-r from-purple-400 to-blue-400 rounded-full opacity-30"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
             }}
             animate={{
-              y: [-window.innerHeight, window.innerHeight],
-              opacity: [0, 0.8, 0],
-              scale: [0.5, 1, 0.5],
+              y: [-100, window.innerHeight + 100],
+              opacity: [0, 0.6, 0],
             }}
             transition={{
-              duration: 15 + Math.random() * 10,
+              duration: 10 + Math.random() * 10,
               repeat: Infinity,
-              delay: i * 2,
+              delay: i * 1.5,
               ease: "linear",
             }}
           />
         ))}
       </div>
-
-      {/* Section dividers with animated gradients */}
-      <motion.div
-        className="fixed inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-purple-500/30 to-transparent z-5"
-        animate={{
-          opacity: [0.3, 0.8, 0.3],
-          scaleX: [0.8, 1.2, 0.8],
-        }}
-        transition={{
-          duration: 4,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      />
     </motion.div>
   );
 }
