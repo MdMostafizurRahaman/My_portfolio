@@ -146,21 +146,7 @@ export default function HeroSection() {
               whileHover={{ scale: 1.02 }}
             >
               <motion.span
-                className="inline-block"
-                style={{
-                  background: "linear-gradient(45deg, #1f2937, #374151, #6b7280)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-                animate={{
-                  backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "linear",
-                }}
+                className="inline-block text-black dark:text-white"
               >
                 Md Mostafizur Rahaman
               </motion.span>
