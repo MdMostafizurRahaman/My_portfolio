@@ -1,313 +1,148 @@
-import { motion } from "framer-motion";
 import SectionTitle from "@/components/ui/section-title.jsx";
-import FlipCard from "@/components/ui/flip-card.jsx";
 
 export default function ProjectsSection() {
   const projects = [
     {
+      title: "GitIntel",
+      description: "Autonomous tool to compute 65 static metrics and generate benchmark-aligned datasets. Multi-LLM Jury for hallucination-free generation.",
+      technologies: ["Python", "PyDriller", "GitPython", "Gemini API", "AWS Bedrock"],
+      github: "https://github.com/MdMostafizurRahaman/GitIntel",
+      demo: null,
+    },
+    {
       title: "Global Policy Tracker",
-      description: "Visual platform to compare up to 10 policies per country",
-      icon: "fas fa-globe",
-      technologies: ["Next.js", "FastAPI", "MongoDB", "React-Globe"],
-      detailedDescription: [
-        "Designed and developed a visual platform to compare and analyze up to 10 policies per country, featuring an interactive dashboard and color-coded world maps for clear global insights.",
-        "Enhanced with AI-powered analysis, the platform supports real-time updates and plans for automated policy change detection, ensuring timely and actionable information for decision-makers."
-      ],
-      github: "https://github.com/MdMostafizurRahaman/policy-tracker.git",
+      description: "Full AI-powered policy intelligence platform with interactive dashboard, color-coded world maps, real-time updates, and policy comparison.",
+      technologies: ["Next.js", "FastAPI", "AWS DynamoDB", "ReactGlobe", "Render"],
+      github: "https://github.com/MdMostafizurRahaman/policy-tracker",
       demo: "https://policy-tracker-f.onrender.com/",
-      gradient: "from-blue-500 via-purple-500 to-pink-500",
-      glowColor: "rgba(139, 69, 19, 0.4)"
     },
     {
-      title: "MediLens",
-      description: "AI-powered healthcare platform for simplified medical data analysis",
-      icon: "fas fa-notes-medical",
-      technologies: ["Spring Boot", "Next.js", "React", "PostCSS", "Render"],
-      detailedDescription: [
-        "Developed an AI-driven healthcare platform to simplify clinical workflows, including OCR-based prescription analysis, structured medical reports, and efficient doctor & patient management.",
-        "Features real-time chat for seamless communication and smart insights to enhance medical decision-making, making prescriptions and health data clear and actionable."
-      ],
-      github: "https://github.com/MdMostafizurRahaman/MediLens.git",
-      demo: "https://medilens-frontend.onrender.com/",
-      gradient: "from-emerald-400 via-cyan-400 to-blue-500",
-      glowColor: "rgba(16, 185, 129, 0.4)"
-    },
-    {
-      title: "AQI",
-      description: "Real-time air quality monitoring app with predictive analytics",
-      icon: "fas fa-wind",
-      technologies: ["React", "Firebase", "Google GenAI API", "SARIMAX", "Chart.js"],
-      detailedDescription: [
-        "Developed a real-time air quality monitoring app with weather insights, health recommendations, and predictive analytics using SARIMAX.",
-        "Integrated GenAI for personalized feedback and guidance."
-      ],
-      github: "https://github.com/MdMostafizurRahaman/AI_Olympiad.git",
-      demo: "#",
-      gradient: "from-green-400 via-emerald-500 to-teal-500",
-      glowColor: "rgba(34, 197, 94, 0.4)"
-    },
-    {
-      title: "Gomoku Game AI",
-      description: "A 10x10 Gomoku game with AI versus player functionality using React.js",
-      icon: "fas fa-gamepad",
-      technologies: ["React.js", "AI", "Game Development"],
-      detailedDescription: [
-        "Developed a 10x10 Gomoku game with AI versus player functionality. The AI makes optimal moves, considering winning conditions and preventing overline situations.",
-        "Turn-based gameplay allows the player to compete against the AI. Added player vs AI functionality to enhance the game experience."
-      ],
-      github: "https://github.com/MdMostafizurRahaman/Gomoku-AI",
-      demo: "#",
-      gradient: "from-purple-500 via-pink-500 to-red-500",
-      glowColor: "rgba(168, 85, 247, 0.4)"
+      title: "PrescribeCorrect",
+      description: "AI-powered healthcare platform for simplifying medical data analysis. Features OCR-based prescription analysis, doctor & patient management, real-time chat.",
+      technologies: ["Spring Boot", "Next.js", "PostCSS", "Render"],
+      github: "https://github.com/MdMostafizurRahaman/PrescribeCorrect",
+      demo: "https://prescribe-correct.vercel.app",
     },
     {
       title: "Stack Overflow Clone",
-      description: "A MERN stack application with user registration, login, and post management",
-      icon: "fab fa-stack-overflow",
-      technologies: ["React.js", "Node.js", "MongoDB", "Express.js"],
-      detailedDescription: [
-        "Built a MERN-based app with user registration, login, post management, and JWT authentication.",
-        "Added notification cleanup and MinIO for code snippet storage, transitioning to a distributed setup."
-      ],
+      description: "MERN-based app with user registration, login, post management, JWT authentication. Includes notification cleanup and MinIO for code snippet storage.",
+      technologies: ["React.js", "Node.js", "MongoDB", "Express.js", "JWT"],
       github: "https://github.com/MdMostafizurRahaman/stack-overflow",
-      demo: "#",
-      gradient: "from-orange-400 via-red-500 to-pink-500",
-      glowColor: "rgba(249, 115, 22, 0.4)"
+      demo: null,
     },
     {
       title: "IPOS",
-      description: "Internship placement system for BSSE 4th-year students",
-      icon: "fas fa-briefcase",
+      description: "Portal for managing internship applications with company listings, skill-based filtering, CV uploads, automated emails, and HR letter generation.",
       technologies: ["React.js", "Node.js", "MongoDB", "Express.js"],
-      detailedDescription: [
-        "Developed a web application to streamline the internship placement process for BSSE 4th-year students, with company listings and student applications.",
-        "Designed a RESTful backend for managing CVs, skillsets, CGPA, and interview allocations, along with email notifications and formal letter generation for HR."
-      ],
       github: "https://github.com/MdMostafizurRahaman/IPOS-SPL-ll",
-      demo: "#",
-      gradient: "from-indigo-500 via-blue-500 to-cyan-500",
-      glowColor: "rgba(99, 102, 241, 0.4)"
+      demo: null,
     },
     {
       title: "Chat Server",
-      description: "A mini messenger app with secure encryption",
-      icon: "fas fa-comments",
-      technologies: ["C++", "Encryption", "Socket Programming"],
-      detailedDescription: [
-        "Developed a mini messenger app with user registration, secure password encryption, and login system with retry limits.",
-        "Enabled user connectivity for individual and group chats, and ensured data security by encrypting all transmitted data with AES."
-      ],
+      description: "Secure chat system with AES encryption, login controls, and real-time group/individual messaging. Includes retry-limited authentication and encrypted data transfer.",
+      technologies: ["C++", "AES Encryption", "Socket Programming"],
       github: "https://github.com/MdMostafizurRahaman/Chat-server-SPL1",
-      demo: "#",
-      gradient: "from-yellow-400 via-orange-500 to-red-500",
-      glowColor: "rgba(245, 158, 11, 0.4)"
+      demo: null,
+    },
+    {
+      title: "MediLens",
+      description: "AI-based medical prescription analysis platform for Bangladeshi healthcare ecosystem. Supports Bengali & English, OCR-based reading, real-time AI analysis.",
+      technologies: ["Spring Boot", "Next.js", "OCR", "AI/ML"],
+      github: "https://github.com/MdMostafizurRahaman/MediLens",
+      demo: "https://medilens-frontend.onrender.com/",
+    },
+    {
+      title: "Big Bang SMS Sender",
+      description: "Bulk messaging platform sending 1,500+ daily SMS to students and guardians. Full development and maintenance with efficient, reliable, and scalable communication.",
+      technologies: ["Excel Integration", "SMS API", "Backend Development"],
+      github: null,
+      demo: null,
     },
   ];
 
-  // Floating particle component
-  const FloatingParticle = ({ delay = 0, duration = 4 }) => (
-    <motion.div
-      className="absolute w-2 h-2 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full opacity-30"
-      animate={{
-        y: [-20, -100, -20],
-        x: [-10, 10, -10],
-        opacity: [0.3, 0.7, 0.3],
-      }}
-      transition={{
-        duration,
-        repeat: Infinity,
-        delay,
-        ease: "easeInOut",
-      }}
-    />
-  );
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { 
-      opacity: 0, 
-      y: 50,
-      scale: 0.9,
-      rotateX: -15,
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      rotateX: 0,
-      transition: { 
-        duration: 0.8, 
-        ease: [0.175, 0.885, 0.32, 1.275],
-      },
-    },
-  };
-
-  const backgroundVariants = {
-    animate: {
-      backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-      transition: {
-        duration: 20,
-        repeat: Infinity,
-        ease: "linear",
-      },
-    },
-  };
-
   return (
-    <section id="projects" className="py-20 relative overflow-hidden">
-      {/* Animated Background */}
-      <motion.div 
-        className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-blue-900/20 to-teal-900/20 dark:from-purple-900/40 dark:via-blue-900/40 dark:to-teal-900/40"
-        variants={backgroundVariants}
-        animate="animate"
-        style={{
-          backgroundSize: "400% 400%",
-        }}
-      />
-      
-      {/* Floating Particles */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(15)].map((_, i) => (
-          <div
-            key={i}
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-          >
-            <FloatingParticle 
-              delay={i * 0.5} 
-              duration={4 + Math.random() * 3}
-            />
-          </div>
-        ))}
-      </div>
+    <section id="projects" className="py-16 sm:py-20 bg-gray-50 dark:bg-gray-800">
+      <div className="container mx-auto px-4 sm:px-6">
+        <SectionTitle title="My" highlight="Projects" />
 
-      {/* Animated Grid Pattern */}
-      <div className="absolute inset-0 opacity-10">
-        <div 
-          className="w-full h-full"
-          style={{
-            backgroundImage: `
-              radial-gradient(circle at 25% 25%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-              radial-gradient(circle at 75% 75%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-              radial-gradient(circle at 75% 25%, rgba(119, 255, 198, 0.3) 0%, transparent 50%),
-              radial-gradient(circle at 25% 75%, rgba(198, 255, 119, 0.3) 0%, transparent 50%)
-            `,
-            backgroundSize: "400px 400px",
-            animation: "float 8s ease-in-out infinite",
-          }}
-        />
-      </div>
+        <p className="text-center text-gray-600 dark:text-gray-400 mt-4 max-w-2xl mx-auto text-base sm:text-lg">
+          Projects from my resume showcasing diverse skills and real-world experience.
+        </p>
 
-      <div className="container mx-auto px-4 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: -30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-        >
-          <SectionTitle title="My" highlight="Projects" />
-          <motion.p 
-            className="text-gray-600 dark:text-gray-300 mt-4 text-center max-w-2xl mx-auto text-lg"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            Check out some of my recent projects showcasing my skills and experience.
-          </motion.p>
-        </motion.div>
-
-        <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-16"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
-        >
-          {projects.map((project, index) => (
-            <motion.div 
-              key={project.title} 
-              variants={itemVariants} 
-              className="h-96 relative group"
-              whileHover={{ 
-                scale: 1.02,
-                rotateY: 2,
-                z: 50,
-              }}
-              transition={{ 
-                duration: 0.3,
-                ease: "easeOut",
-              }}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+          {projects.map((project) => (
+            <div
+              key={project.title}
+              className="bg-white dark:bg-gray-700 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group h-full flex flex-col"
             >
-              {/* Glowing background effect */}
-              <motion.div
-                className="absolute -inset-2 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                style={{
-                  background: `linear-gradient(45deg, ${project.glowColor}, transparent, ${project.glowColor})`,
-                  filter: "blur(10px)",
-                }}
-                animate={{
-                  rotate: [0, 360],
-                }}
-                transition={{
-                  duration: 8,
-                  repeat: Infinity,
-                  ease: "linear",
-                }}
-              />
-              
-              <FlipCard
-                {...project}
-                index={index}
-              />
-            </motion.div>
-          ))}
-        </motion.div>
+              {/* Header with gradient */}
+              <div className="bg-gradient-to-r from-purple-500 to-blue-500 p-4 sm:p-5">
+                <h3 className="text-lg sm:text-xl font-bold text-white">
+                  {project.title}
+                </h3>
+              </div>
 
-        <motion.div 
-          className="text-center mt-16"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-        >
-          <motion.a 
-            href="https://github.com/MdMostafizurRahaman" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-purple-600 via-blue-600 to-teal-600 text-white rounded-full font-semibold text-lg hover:shadow-2xl transition-all duration-300 group animate-gradient"
-            whileHover={{ 
-              scale: 1.05,
-              boxShadow: "0 20px 40px rgba(120, 119, 198, 0.4)",
-            }}
-            whileTap={{ scale: 0.95 }}
+              {/* Content */}
+              <div className="p-4 sm:p-5 flex-1 flex flex-col">
+                {/* Description */}
+                <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4 flex-grow">
+                  {project.description}
+                </p>
+
+                {/* Technologies */}
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {project.technologies.map((tech) => (
+                    <span
+                      key={tech}
+                      className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-xs sm:text-sm rounded-full font-medium"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Links */}
+                <div className="flex gap-3 mt-auto pt-4 border-t border-gray-200 dark:border-gray-600">
+                  {project.github && (
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 px-3 py-2 bg-gray-900 dark:bg-gray-600 text-white rounded-lg hover:bg-gray-800 dark:hover:bg-gray-500 transition-colors text-center text-xs sm:text-sm font-medium"
+                    >
+                      <i className="fab fa-github mr-1"></i>
+                      Code
+                    </a>
+                  )}
+                  {project.demo && (
+                    <a
+                      href={project.demo}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 px-3 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-center text-xs sm:text-sm font-medium"
+                    >
+                      <i className="fas fa-globe mr-1"></i>
+                      Live
+                    </a>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* View GitHub CTA */}
+        <div className="text-center mt-12">
+          <a
+            href="https://github.com/MdMostafizurRahaman"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block px-8 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg font-semibold hover:shadow-lg transition-all duration-300 text-sm sm:text-base"
           >
-            <span className="mr-3">View More on GitHub</span>
-            <motion.i 
-              className="fab fa-github text-xl"
-              animate={{ 
-                rotate: [0, 360],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-            />
-          </motion.a>
-        </motion.div>
+            <i className="fab fa-github mr-2"></i>
+            View All Projects on GitHub
+          </a>
+        </div>
       </div>
     </section>
   );

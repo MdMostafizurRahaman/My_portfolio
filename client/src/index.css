@@ -251,6 +251,31 @@
     animation: rainbow 6s ease-in-out infinite;
   }
 
+  /* Mobile optimization - reduce animations on small screens */
+  @media (max-width: 768px) {
+    .animate-float,
+    .animate-float-slow,
+    .animate-float-reverse,
+    .animate-pulse-glow,
+    .animate-sparkle,
+    .animate-rainbow,
+    .animate-rotate {
+      animation: none !important;
+      transform: none !important;
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
   /* Flip Card Animations */
   .perspective-1000 {
     perspective: 1000px;
