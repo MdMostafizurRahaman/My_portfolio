@@ -1,4 +1,5 @@
 import { scrollToElement } from "../lib/utils";
+import { personalInfo } from "../data/portfolio-data";
 
 export default function HeroSection() {
   return (
@@ -79,7 +80,7 @@ export default function HeroSection() {
             <div className="absolute inset-0 bg-gradient-to-br from-purple-400 to-blue-400 rounded-full" />
             <div className="absolute inset-2 bg-white dark:bg-gray-800 rounded-full overflow-hidden border-4 border-white dark:border-gray-700">
               <img
-                src="/profile.jpg"
+                src={personalInfo.profileImage}
                 alt="Md Mostafizur Rahaman"
                 className="w-full h-full object-cover"
               />
