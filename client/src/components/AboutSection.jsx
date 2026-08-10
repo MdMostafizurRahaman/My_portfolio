@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
+import { GraduationCap, Code, Trophy, Award, Download, Rocket } from "lucide-react";
 import SectionTitle from "@/components/ui/section-title.jsx";
+import { education, personalInfo } from "../data/portfolio-data.js";
 
 export default function AboutSection() {
   return (
@@ -18,7 +20,7 @@ export default function AboutSection() {
             <div className="bg-white dark:bg-gray-800 p-8 rounded-lg space-y-6">
               <div className="flex items-center mb-6">
                 <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mr-4">
-                  <i className="fas fa-user-graduate text-primary text-xl"></i>
+                  <GraduationCap className="text-primary text-xl" />
                 </div>
                 <div>
                   <h3 className="font-bold text-xl font-poppins">Education</h3>
@@ -26,17 +28,14 @@ export default function AboutSection() {
               </div>
               
               <div className="space-y-4">
-                <div className="pl-4 border-l-2 border-primary space-y-1">
-                  <p className="font-semibold">BSc in Software Engineering</p>
-                  <p>University of Dhaka</p>
-                  <p className="text-sm text-gray-600 dark:text-gray-300">Final Year</p>
-                </div>
-                
-                <div className="pl-4 border-l-2 border-accent space-y-1">
-                  <p className="font-semibold">HSC</p>
-                  <p>Chuadanga Govt' College, Chuadanga</p>
-                  <p className="text-sm text-gray-600 dark:text-gray-300">GPA: 5.00</p>
-                </div>
+                {education.map((item) => (
+                  <div key={item.id} className="pl-4 border-l-2 border-primary space-y-1">
+                    <p className="font-semibold">{item.degree}</p>
+                    <p>{item.institution}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">{item.duration}</p>
+                    {item.location && <p className="text-sm text-gray-500 dark:text-gray-400">{item.location}</p>}
+                  </div>
+                ))}
               </div>
             </div>
           </motion.div>
@@ -48,46 +47,44 @@ export default function AboutSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h3 className="text-2xl font-poppins font-bold">Software Engineer & Competitive Programmer</h3>
+            <h3 className="text-2xl font-poppins font-bold">Software Engineer & AI/ML Builder</h3>
             
             <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-              I'm a Software Engineering student at the University of Dhaka with a passion for building efficient, 
-              user-friendly applications. My expertise spans across various programming languages and technologies, 
-              with a focus on web development and competitive programming.
+              {personalInfo.about}
             </p>
             
             <div className="space-y-4">
               <div className="flex items-start">
-                <div className="text-primary mr-4"><i className="fas fa-code"></i></div>
+                <div className="text-primary mr-4"><Rocket /></div>
                 <div>
-                  <p className="font-medium">Solved 600+ programming problems across various platforms</p>
+                  <p className="font-medium">Built AI-powered platforms and full-stack products for healthcare, policy intelligence, and research workflows.</p>
                 </div>
               </div>
               
               <div className="flex items-start">
-                <div className="text-primary mr-4"><i className="fas fa-trophy"></i></div>
+                <div className="text-primary mr-4"><Trophy /></div>
                 <div>
-                  <p className="font-medium">District Champion at Creative Talent Hunt Competition (Math & Computer)</p>
+                  <p className="font-medium">Achieved 2nd Runner-Up at the Industrial Responsible AI Summit, MIST for PrescribeCorrect.</p>
                 </div>
               </div>
               
               <div className="flex items-start">
-                <div className="text-primary mr-4"><i className="fas fa-award"></i></div>
+                <div className="text-primary mr-4"><Award /></div>
                 <div>
-                  <p className="font-medium">National Champion at Bangladesh Red Crescent Society (Essay Writing)</p>
+                  <p className="font-medium">Participated in 50+ contests and solved 600+ problems across leading competitive programming platforms.</p>
                 </div>
               </div>
             </div>
             
             <div className="pt-4">
               <a 
-                href="Mostafizur_Resume.pdf" 
+                href={personalInfo.resumeUrl} 
                 className="inline-flex items-center bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg font-medium transition-all"
                 target="_blank"
                 rel="noopener noreferrer"
                 download
               >
-                <i className="fas fa-download mr-2"></i> Download CV
+                <Download className="mr-2 h-4 w-4" /> Download CV
               </a>
             </div>
           </motion.div>

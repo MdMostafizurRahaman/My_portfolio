@@ -1,67 +1,18 @@
+import { Github, Globe } from "lucide-react";
 import SectionTitle from "@/components/ui/section-title.jsx";
+import { projects as projectData } from "../data/portfolio-data.js";
 
 export default function ProjectsSection() {
-  const projects = [
-    {
-      title: "GitIntel",
-      description: "Autonomous tool to compute 65 static metrics and generate benchmark-aligned datasets. Multi-LLM Jury for hallucination-free generation.",
-      technologies: ["Python", "PyDriller", "GitPython", "Gemini API", "AWS Bedrock"],
-      github: "https://github.com/MdMostafizurRahaman/GitIntel",
-      demo: null,
-    },
-    {
-      title: "Global Policy Tracker",
-      description: "Full AI-powered policy intelligence platform with interactive dashboard, color-coded world maps, real-time updates, and policy comparison.",
-      technologies: ["Next.js", "FastAPI", "AWS DynamoDB", "ReactGlobe", "Render"],
-      github: "https://github.com/MdMostafizurRahaman/policy-tracker",
-      demo: "https://policy-tracker-f.onrender.com/",
-    },
-    {
-      title: "PrescribeCorrect",
-      description: "AI-powered healthcare platform for simplifying medical data analysis. Features OCR-based prescription analysis, doctor & patient management, real-time chat.",
-      technologies: ["Spring Boot", "Next.js", "PostCSS", "Render"],
-      github: "https://github.com/MdMostafizurRahaman/PrescribeCorrect",
-      demo: "https://prescribe-correct.vercel.app",
-    },
-    {
-      title: "Stack Overflow Clone",
-      description: "MERN-based app with user registration, login, post management, JWT authentication. Includes notification cleanup and MinIO for code snippet storage.",
-      technologies: ["React.js", "Node.js", "MongoDB", "Express.js", "JWT"],
-      github: "https://github.com/MdMostafizurRahaman/stack-overflow",
-      demo: null,
-    },
-    {
-      title: "IPOS",
-      description: "Portal for managing internship applications with company listings, skill-based filtering, CV uploads, automated emails, and HR letter generation.",
-      technologies: ["React.js", "Node.js", "MongoDB", "Express.js"],
-      github: "https://github.com/MdMostafizurRahaman/IPOS-SPL-ll",
-      demo: null,
-    },
-    {
-      title: "Chat Server",
-      description: "Secure chat system with AES encryption, login controls, and real-time group/individual messaging. Includes retry-limited authentication and encrypted data transfer.",
-      technologies: ["C++", "AES Encryption", "Socket Programming"],
-      github: "https://github.com/MdMostafizurRahaman/Chat-server-SPL1",
-      demo: null,
-    },
-    {
-      title: "MediLens",
-      description: "AI-based medical prescription analysis platform for Bangladeshi healthcare ecosystem. Supports Bengali & English, OCR-based reading, real-time AI analysis.",
-      technologies: ["Spring Boot", "Next.js", "OCR", "AI/ML"],
-      github: "https://github.com/MdMostafizurRahaman/MediLens",
-      demo: "https://medilens-frontend.onrender.com/",
-    },
-    {
-      title: "Big Bang SMS Sender",
-      description: "Bulk messaging platform sending 1,500+ daily SMS to students and guardians. Full development and maintenance with efficient, reliable, and scalable communication.",
-      technologies: ["Excel Integration", "SMS API", "Backend Development"],
-      github: null,
-      demo: null,
-    },
-  ];
+  const projects = projectData.map((project) => ({
+    title: project.title,
+    description: project.description,
+    technologies: project.technologies,
+    github: project.githubLink,
+    demo: project.liveLink,
+  }));
 
   return (
-    <section id="projects" className="py-16 sm:py-20 bg-gray-50 dark:bg-gray-800">
+    <section id="projects" className="py-16 sm:py-20 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 sm:px-6">
         <SectionTitle title="My" highlight="Projects" />
 
@@ -110,7 +61,7 @@ export default function ProjectsSection() {
                       rel="noopener noreferrer"
                       className="flex-1 px-3 py-2 bg-gray-900 dark:bg-gray-600 text-white rounded-lg hover:bg-gray-800 dark:hover:bg-gray-500 transition-colors text-center text-xs sm:text-sm font-medium"
                     >
-                      <i className="fab fa-github mr-1"></i>
+                      <Github className="mr-1 inline-block h-3.5 w-3.5" />
                       Code
                     </a>
                   )}
@@ -121,7 +72,7 @@ export default function ProjectsSection() {
                       rel="noopener noreferrer"
                       className="flex-1 px-3 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-center text-xs sm:text-sm font-medium"
                     >
-                      <i className="fas fa-globe mr-1"></i>
+                      <Globe className="mr-1 inline-block h-3.5 w-3.5" />
                       Live
                     </a>
                   )}
@@ -139,7 +90,7 @@ export default function ProjectsSection() {
             rel="noopener noreferrer"
             className="inline-block px-8 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg font-semibold hover:shadow-lg transition-all duration-300 text-sm sm:text-base"
           >
-            <i className="fab fa-github mr-2"></i>
+            <Github className="mr-2 inline-block" />
             View All Projects on GitHub
           </a>
         </div>

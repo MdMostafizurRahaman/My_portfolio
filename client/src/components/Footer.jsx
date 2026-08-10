@@ -1,4 +1,5 @@
 import React from "react";
+import { Github, Linkedin, Mail } from "lucide-react";
 import { scrollToElement } from "@/lib/utils.js";
 
 export default function Footer() {
@@ -13,13 +14,13 @@ export default function Footer() {
   ];
 
   const socialLinks = [
-    { icon: "fab fa-github", url: "https://github.com/MdMostafizurRahaman", label: "GitHub" },
-    { icon: "fab fa-linkedin", url: "https://linkedin.com/in/md-mostafizur-rahaman", label: "LinkedIn" },
-    { icon: "fas fa-envelope", url: "mailto:bsse1320@iit.du.ac.bd", label: "Email" },
+    { icon: Github, url: "https://github.com/MdMostafizurRahaman", label: "GitHub" },
+    { icon: Linkedin, url: "https://linkedin.com/in/md-mostafizur-rahaman", label: "LinkedIn" },
+    { icon: Mail, url: "mailto:bsse1320@iit.du.ac.bd", label: "Email" },
   ];
 
   return (
-    <footer className="bg-dark text-white py-12">
+    <footer className="bg-gray-900 text-white py-12">
       <div className="container mx-auto px-4">
         <div className="text-center">
           <h2 className="text-2xl font-bold font-poppins mb-6">Md Mostafizur Rahaman</h2>
@@ -41,18 +42,21 @@ export default function Footer() {
           </div>
 
           <div className="flex justify-center space-x-6 mb-8">
-            {socialLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-primary transition-colors"
-                aria-label={link.label}
-              >
-                <i className={`${link.icon} text-xl`}></i>
-              </a>
-            ))}
+            {socialLinks.map((link) => {
+              const Icon = link.icon;
+              return (
+                <a
+                  key={link.label}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-primary transition-colors"
+                  aria-label={link.label}
+                >
+                  <Icon className="h-5 w-5" />
+                </a>
+              );
+            })}
           </div>
 
           <p className="text-gray-400">

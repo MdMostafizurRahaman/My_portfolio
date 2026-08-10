@@ -1,52 +1,16 @@
 import { motion } from "framer-motion";
 import SectionTitle from "@/components/ui/section-title.jsx";
 import TimelineItem from "@/components/ui/timeline-item.jsx";
+import { experience } from "../data/portfolio-data.js";
 
 export default function ExperienceSection() {
-  const timelineItems = [
-    {
-      date: "Present",
-      title: "Intern",
-      organization: "Ithra, Aramco",
-      description: "Working on a Policy tracker project, applying software engineering skills in a professional environment.",
-      position: "left",
-      category: "Experience"
-    },
-    {
-      date: "2021 - Present",
-      title: "BSc in Software Engineering",
-      organization: "University of Dhaka",
-      description: "Final year",
-      position: "right",
-      category: "Education"
-    },
-    {
-      date: "Education",
-      title: "HSC",
-      organization: "Chuadanga Govt' College, Chuadanga",
-      description: "GPA: 5.00",
-      position: "right"
-    },
-    {
-      date: "May 2024 - December 2024",
-      title: "ICT and Database Management Associate",
-      organization: "Student Promotion & Support Unit, University of Dhaka",
-      description: "Collaborated with a team to offer part-time placement services, talent acquisition, and skill development programs for students. Optimized ICT and database management systems to enhance service delivery.",
-      position: "left"
-    },
-    {
-      date: "Awards & Achievements",
-      title: "District Champion",
-      organization: "Creative Talent Hunt Competition (Math & Computer)",
-      position: "right"
-    },
-    {
-      date: "Awards & Achievements",
-      title: "National Champion",
-      organization: "Bangladesh Red Crescent Society (Essay Writing)",
-      position: "left"
-    }
-  ];
+  const timelineItems = experience.map((item, index) => ({
+    date: item.duration,
+    title: item.role,
+    organization: item.company,
+    description: item.description,
+    position: index % 2 === 0 ? "left" : "right"
+  }));
 
   return (
     <section id="experience" className="py-20 bg-gray-50 dark:bg-gray-800">
@@ -65,7 +29,7 @@ export default function ExperienceSection() {
         >
           {timelineItems.map((item, index) => (
             <TimelineItem
-              key={index}
+              key={`${item.title}-${index}`}
               date={item.date}
               title={item.title}
               organization={item.organization}
