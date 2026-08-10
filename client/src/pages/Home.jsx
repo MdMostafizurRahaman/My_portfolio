@@ -4,6 +4,7 @@ import AboutSection from "../components/AboutSection.jsx";
 import SkillsSection from "../components/SkillsSection.jsx";
 import ProjectsSection from "../components/ProjectsSection.jsx";
 import ExperienceSection from "../components/ExperienceSection.jsx";
+import AchievementsSection from "../components/AchievementsSection.jsx";
 import GitHubStatsSection from "../components/GitHubStatsSection.jsx";
 import ContactSection from "../components/ContactSection.jsx";
 import Footer from "../components/Footer.jsx";
@@ -18,6 +19,7 @@ export default function Home() {
         <SkillsSection />
         <ProjectsSection />
         <ExperienceSection />
+        <AchievementsSection />
         <GitHubStatsSection />
         <ContactSection />
       </main>

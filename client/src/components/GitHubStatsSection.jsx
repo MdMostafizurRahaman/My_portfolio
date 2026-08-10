@@ -4,34 +4,26 @@ import { personalInfo } from "../data/portfolio-data.js";
 import { useGitHubProjects } from "../hooks/use-github-projects.js";
 
 export default function GitHubStatsSection() {
-  const { projects, loading, error } = useGitHubProjects();
+  const { projects, loading, usedFallback } = useGitHubProjects();
 
   const totalProjects = projects.length;
   const totalStars = projects.reduce((sum, repo) => sum + repo.stars, 0);
   const topProject = projects.reduce((best, repo) => (repo.stars > (best?.stars || -1) ? repo : best), null);
+  const activeLanguages = new Set(projects.map((repo) => repo.language).filter(Boolean)).size;
 
-  const stats = [
-    {
-      label: "Public Repositories",
-      value: loading ? "—" : `${totalProjects}`,
-      icon: Folder,
-    },
-    {
-      label: "Total Stars",
-      value: loading ? "—" : `${totalStars}`,
-      icon: Star,
-    },
-    {
-      label: "Top Project",
-      value: loading ? "—" : topProject?.name || "-",
-      icon: GitBranch,
-    },
-    {
-      label: "Active Languages",
-      value: loading ? "—" : `${projects.length ? "6+" : "0"}`,
-      icon: TrendingUp,
-    },
-  ];
+  const stats = usedFallback
+    ? [
+        { label: "Projects", value: `${totalProjects}+`, icon: Folder },
+        { label: "Top Project", value: topProject?.name || "-", icon: GitBranch },
+        { label: "Languages Used", value: `${activeLanguages}+`, icon: TrendingUp },
+        { label: "Contests", value: "50+", icon: Star },
+      ]
+    : [
+        { label: "Public Repositories", value: `${totalProjects}`, icon: Folder },
+        { label: "Total Stars", value: `${totalStars}`, icon: Star },
+        { label: "Top Project", value: topProject?.name || "-", icon: GitBranch },
+        { label: "Languages Used", value: `${activeLanguages}`, icon: TrendingUp },
+      ];
 
   const featured = projects
     .filter((repo) => !repo.fork)
@@ -42,6 +34,12 @@ export default function GitHubStatsSection() {
     <section id="github" className="py-16 sm:py-20 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 sm:px-6">
         <SectionTitle title="GitHub" highlight="Profile" />
+
+        {usedFallback && (
+          <p className="text-center text-sm text-gray-500 dark:text-gray-400 -mt-8 mb-8">
+            Showing curated projects — live GitHub API temporarily unavailable.
+          </p>
+        )}
 
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12">
@@ -64,7 +62,7 @@ export default function GitHubStatsSection() {
           })}
         </div>
 
-        {/* Loading / Error states */}
+        {/* Loading state */}
         {loading && (
           <div className="flex flex-col items-center justify-center mt-16 py-16 text-gray-500">
             <Loader2 className="h-8 w-8 animate-spin text-purple-600 mb-3" />
@@ -72,21 +70,11 @@ export default function GitHubStatsSection() {
           </div>
         )}
 
-        {!loading && error && (
-          <div className="mt-16 rounded-lg border border-amber-200 bg-amber-50 dark:border-amber-900 dark:bg-amber-900/20 p-6 text-center text-sm text-amber-800 dark:text-amber-300">
-            Could not load live GitHub data ({error}).{" "}
-            <a href={`https://github.com/${personalInfo.github}`} target="_blank" rel="noopener noreferrer" className="underline">
-              View profile on GitHub
-            </a>{" "}
-            instead.
-          </div>
-        )}
-
         {/* Top Projects */}
-        {!loading && !error && featured.length > 0 && (
+        {!loading && featured.length > 0 && (
           <div className="mt-16">
             <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">
-              Top Open-Source Projects
+              {usedFallback ? "Featured Projects" : "Top Projects"}
             </h3>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -102,10 +90,12 @@ export default function GitHubStatsSection() {
                     <h4 className="text-lg font-bold text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
                       {project.name}
                     </h4>
-                    <span className="flex items-center gap-1 text-sm text-amber-500">
-                      <Star className="h-4 w-4 fill-current" />
-                      {project.stars}
-                    </span>
+                    {project.stars > 0 && (
+                      <span className="flex items-center gap-1 text-sm text-amber-500">
+                        <Star className="h-4 w-4 fill-current" />
+                        {project.stars}
+                      </span>
+                    )}
                   </div>
                   <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
                     {project.description}
@@ -124,13 +114,6 @@ export default function GitHubStatsSection() {
                 </a>
               ))}
             </div>
-          </div>
-        )}
-
-        {/* Empty state */}
-        {!loading && !error && featured.length === 0 && (
-          <div className="mt-16 rounded-lg border border-gray-200 dark:border-gray-700 p-6 text-center text-sm text-gray-500 dark:text-gray-400">
-            No public repositories found on GitHub.
           </div>
         )}
 

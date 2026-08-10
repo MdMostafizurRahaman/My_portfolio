@@ -1,9 +1,23 @@
 import { useEffect, useState } from "react";
+import { projects as projectData } from '../data/portfolio-data.js';
+
+const fallbackProjects = projectData
+  .filter((project) => project.githubLink)
+  .map((project) => ({
+    id: `static-${project.id}`,
+    name: project.title,
+    description: project.description,
+    url: project.githubLink,
+    homepage: project.liveLink,
+    stars: 0,
+    language: project.technologies[0],
+  }));
 
 export function useGitHubProjects() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [usedFallback, setUsedFallback] = useState(false);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -32,8 +46,10 @@ export function useGitHubProjects() {
 
         setProjects(filtered);
       } catch (err) {
-        console.error("Error fetching projects:", err);
-        setError(err.message);
+        console.warn("GitHub API unavailable, using curated fallback:", err.message);
+        // Fall back to curated projects so the section never looks empty/broken
+        setProjects(fallbackProjects);
+        setUsedFallback(true);
       } finally {
         setLoading(false);
       }
@@ -42,5 +58,5 @@ export function useGitHubProjects() {
     fetchProjects();
   }, []);
 
-  return { projects, loading, error };
+  return { projects, loading, error: error && !usedFallback ? error : null, usedFallback };
 }

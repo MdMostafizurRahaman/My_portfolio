@@ -1,9 +1,11 @@
 import { motion } from "framer-motion";
 import { Github, Linkedin, Mail } from "lucide-react";
+import Typewriter from "@/components/ui/typewriter.jsx";
 import { scrollToElement } from "../lib/utils";
 import { personalInfo } from "../data/portfolio-data.js";
 
 const highlights = ["Full-stack products", "AI-powered systems", "Cloud deployment", "Research-driven engineering"];
+const roles = ["Full-Stack Developer", "AI/ML Developer", "Research Engineer", "Competitive Programmer"];
 
 const quickStats = [
   { label: "Experience", value: "3+ years" },
@@ -38,6 +40,14 @@ export default function HeroSection() {
 
             <p className="mt-4 text-xl font-semibold text-slate-700 sm:text-2xl dark:text-slate-300">
               {personalInfo.title}
+            </p>
+
+            <p className="mt-4 text-base font-medium text-slate-600 sm:text-lg dark:text-slate-400">
+              Crafting{" "}
+              <Typewriter
+                words={roles}
+                className="text-purple-600 dark:text-purple-400 font-semibold"
+              />
             </p>
 
             <p className="mt-6 text-lg leading-8 text-slate-600 dark:text-slate-400">

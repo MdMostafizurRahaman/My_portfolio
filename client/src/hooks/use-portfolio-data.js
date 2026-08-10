@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import emailjs from 'emailjs-com';
+import { personalInfo } from '../data/portfolio-data.js';
 
 // Hook for submitting contact form data using EmailJS
 export function useContactForm() {
@@ -16,17 +17,17 @@ export function useContactForm() {
   });
 
   const submitContact = async (data) => {
+    // If EmailJS is not configured, open the visitor's mail client with the
+    // message pre-filled so the form still delivers the message.
     if (!emailConfigured) {
-      setStatus({
-        isSubmitting: false,
-        isSuccess: false,
-        isError: true,
-        error: "Email service is not configured yet. Please contact directly via email."
-      });
+      const subject = encodeURIComponent(`Portfolio contact from ${data.name}`);
+      const body = encodeURIComponent(`Name: ${data.name}\nEmail: ${data.email}\n\n${data.message}`);
+      window.location.href = `mailto:${personalInfo.email}?subject=${subject}&body=${body}`;
+      setStatus({ isSubmitting: false, isSuccess: true, isError: false, error: null, viaMailto: true });
       return;
     }
 
-    setStatus({ isSubmitting: true, isSuccess: false, isError: false, error: null });
+    setStatus({ isSubmitting: true, isSuccess: false, isError: false, error: null, viaMailto: false });
 
     try {
       const templateParams = {
@@ -37,20 +38,21 @@ export function useContactForm() {
 
       await emailjs.send(serviceId, templateId, templateParams, publicKey);
 
-      setStatus({ isSubmitting: false, isSuccess: true, isError: false, error: null });
+      setStatus({ isSubmitting: false, isSuccess: true, isError: false, error: null, viaMailto: false });
     } catch (error) {
       console.error('Failed to send email:', error);
       setStatus({
         isSubmitting: false,
         isSuccess: false,
         isError: true,
-        error: "Failed to send message. Please try again or contact directly via email."
+        error: "Failed to send message. Please try again or contact directly via email.",
+        viaMailto: false
       });
     }
   };
 
   const reset = () => {
-    setStatus({ isSubmitting: false, isSuccess: false, isError: false, error: null });
+    setStatus({ isSubmitting: false, isSuccess: false, isError: false, error: null, viaMailto: false });
   };
 
   return {
@@ -59,6 +61,7 @@ export function useContactForm() {
     isSuccess: status.isSuccess,
     isError: status.isError,
     error: status.error,
+    viaMailto: status.viaMailto,
     emailConfigured,
     reset
   };

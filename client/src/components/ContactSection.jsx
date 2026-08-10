@@ -16,7 +16,7 @@ export default function ContactSection() {
     isSuccess,
     isError,
     error,
-    emailConfigured,
+    viaMailto,
     reset,
   } = useContactForm();
 
@@ -126,9 +126,13 @@ export default function ContactSection() {
                 <div className="flex items-start">
                   <CheckCircle className="h-5 w-5 text-green-500 mr-3 mt-0.5" />
                   <div>
-                    <h4 className="font-medium text-green-800 dark:text-green-200">Message sent successfully!</h4>
+                    <h4 className="font-medium text-green-800 dark:text-green-200">
+                      {viaMailto ? "Opening your email app..." : "Message sent successfully!"}
+                    </h4>
                     <p className="text-green-700 dark:text-green-300 text-sm mt-1">
-                      Thank you for reaching out. I'll get back to you as soon as possible.
+                      {viaMailto
+                        ? `Your email app should have opened with a pre-filled message to ${personalInfo.email}. If it didn't, email me directly.`
+                        : "Thank you for reaching out. I'll get back to you as soon as possible."}
                     </p>
                     <button 
                       onClick={reset}
@@ -155,22 +159,6 @@ export default function ContactSection() {
                     <div className="flex">
                       <AlertCircle className="h-5 w-5 text-red-500 mr-3" />
                       <p className="text-red-700 dark:text-red-300 text-sm">{errors.submit}</p>
-                    </div>
-                  </div>
-                )}
-
-                {!emailConfigured && (
-                  <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-md p-4 mb-4">
-                    <div className="flex items-start">
-                      <AlertCircle className="h-5 w-5 text-amber-500 mr-3 mt-0.5" />
-                      <p className="text-amber-800 dark:text-amber-300 text-sm">
-                        The contact form is not yet configured with an email service. In the meantime,
-                        reach me directly at{" "}
-                        <a href={`mailto:${personalInfo.email}`} className="underline font-medium">
-                          {personalInfo.email}
-                        </a>
-                        .
-                      </p>
                     </div>
                   </div>
                 )}
